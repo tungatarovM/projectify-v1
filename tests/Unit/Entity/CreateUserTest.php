@@ -3,7 +3,7 @@
 namespace Tests\Unit\Entity;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Entities\User;
 
 class CreateUserTest extends TestCase
@@ -11,7 +11,7 @@ class CreateUserTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function testRequest(): void
+    public function manager_can_register(): void
     {
         $user = User::register(
             $firstName = 'first',
@@ -22,8 +22,8 @@ class CreateUserTest extends TestCase
 
         self::assertNotEmpty($user);
 
-        self::assertEquals($firstName, $user->firstName);
-        self::assertEquals($lastName, $user->lastName);
+        self::assertEquals($firstName, $user->firstname);
+        self::assertEquals($lastName, $user->lastname);
         self::assertEquals($email, $user->email);
 
         self::assertEmpty($user->email_verified_at);
@@ -36,7 +36,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function createDeveloper(): void
+    public function developer_can_be_created(): void
     {
         $submitter = User::add(
             $first = 'first',
@@ -60,7 +60,7 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
-    public function createSubmitter(): void
+    public function submitter_can_be_created(): void
     {
         $developer = User::add(
             $first = 'first',
