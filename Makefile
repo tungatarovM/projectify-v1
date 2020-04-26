@@ -9,11 +9,11 @@ build:
 ps:
 		docker-compose ps
 test:
-		@docker-compose exec php-cli vendor/bin/php-unit --colors=always
+		@docker-compose exec php-cli vendor/bin/phpunit --colors=always
 bash:
 		docker-compose exec php-cli bash
 db:
-		docker-compose exec postgre
+		docker-compose exec pgsql bash
 migrate:
 		docker-compose exec php-cli php artisan migrate
 
