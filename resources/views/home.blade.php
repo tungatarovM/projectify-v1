@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <div class="progress">
-        <div class="indeterminate"></div>
+    <div id="root">
+
     </div>
 </div>
 @endsection
