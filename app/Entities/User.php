@@ -16,8 +16,10 @@ class User extends Authenticatable implements MustVerifyEmail
     const ROLE_DEVELOPER = 'developer';
     const ROLE_SUBMITTER = 'submitter';
 
+    private const DEFAULT_AVATAR = 'public/avatars/default.png';
+
     protected $fillable = [
-        'firstname', 'lastname', 'email', 'password', 'role'
+        'firstname', 'lastname', 'email', 'password', 'role', 'avatar',
     ];
 
     protected $hidden = [
@@ -30,13 +32,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static function register($firstname, $lastname, $email, $password): self
     {
-
         return self::create([
             'firstname' => $firstname,
             'lastname' => $lastname,
             'email' => $email,
             'password' => PasswordHash::make($password),
             'role' => self::ROLE_MANAGER,
+            'avatar' => self::DEFAULT_AVATAR,
         ]);
     }
 
@@ -48,6 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'email' => $email,
             'password' => PasswordHash::make($password),
             'role' => $role,
+            'avatar' => self::DEFAULT_AVATAR,
         ]);
     }
 
@@ -65,7 +68,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->role === self::ROLE_SUBMITTER;
     }
-
 
     public function isDeveloper(): bool
     {

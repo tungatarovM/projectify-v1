@@ -26,7 +26,11 @@ class CreateUserTest extends TestCase
         self::assertEquals($lastName, $user->lastname);
         self::assertEquals($email, $user->email);
 
+
+        self::assertNotEmpty($user->avatar);
+
         self::assertEmpty($user->email_verified_at);
+
         self::assertNotEquals($password, $user->password);
 
         self::assertTrue($user->isManager());
@@ -52,6 +56,7 @@ class CreateUserTest extends TestCase
         self::assertNotEquals($password, $submitter->password);
 
         self::assertEmpty($submitter->email_verified_at);
+        self::assertNotEmpty($submitter->avatar);
 
         self::assertTrue($submitter->isSubmitter());
         self::assertFalse($submitter->isAdmin());
@@ -76,6 +81,7 @@ class CreateUserTest extends TestCase
         self::assertNotEquals($password, $developer->password);
 
         self::assertEmpty($developer->email_verified_at);
+        self::assertNotEmpty($developer->avatar);
 
         self::assertTrue($developer->isDeveloper());
         self::assertFalse($developer->isAdmin());

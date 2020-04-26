@@ -18,4 +18,6 @@ USER 1000
 COPY ./docker/dev/php/local /usr/local/etc/php/conf.d
 COPY ./docker/dev/php/conf.d /usr/local/etc/php/conf.d
 
+RUN php artisan storage:link
+
 WORKDIR /var/www
