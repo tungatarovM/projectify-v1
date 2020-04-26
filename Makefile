@@ -1,7 +1,10 @@
 restart: down up
 
-up:
+docker-up:
 		docker-compose up -d
+
+up: docker-up
+
 down:
 		docker-compose down
 build:
@@ -17,6 +20,9 @@ db:
 migrate:
 		docker-compose exec php-cli php artisan migrate
 
+# create symlink inside container
+artisan-symlink:
+		docker-compose exec php-cli php artisan storage:link
 
 # Asset commands
 npm-install:
@@ -27,3 +33,5 @@ npm-dev:
 		docker-compose exec node npm run dev
 npm-watch:
 		docker-compose exec node npm run watch
+npm-hot:
+		docker-compose exec node npm run hot
