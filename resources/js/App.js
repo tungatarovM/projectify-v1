@@ -1,46 +1,36 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import { testAction } from './store/actions';
+import { fetchCurrentUser } from './store/actions/users';
+import Dashboard from "./components/dashboard/Dashboard";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-}));
+class App extends Component {
 
-const App = (props) =>  {
-  const classes = useStyles();
-  console.log('App coment');
-  console.log(props);
-
-  const handleClick = () => {
-    console.log('click');
-    props.testAction();
+  componentDidMount() {
+    this.props.fetchCurrentUser();
   }
 
-  return (
-    <div>
-      {props.projects.map(project => (<li>{project}</li>))}
-      <div className={classes.root}>
-        <Button onClick={() => handleClick()}variant="contained">Default</Button>
-        <Button onClick={() => handleClick()} variant="contained" color="primary">
-          Primary
-        </Button>
-      </div>
-    </div>
-  );
+  render() {
+    const { user, isLoading } = this.props;
+    return (
+      <React.Fragment>
+        { isLoading && <h1>Loading...</h1>}
+        { !isLoading && <Dashboard user={user} />}
+      </React.Fragment>
+    );
+  }
 }
 
-const mapStateToProps = (state) =>  ({
-  projects: state.projects.projects,
-});
+const mapStateToProps = ({ users }) => {
+  console.log('users state', users);
+  return {
+    user: users.currentUser,
+    isLoading: users.loading,
+    error: users.error,
+  };
+};
 
 const mapDispatchToProps = {
-  testAction,
+  fetchCurrentUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
