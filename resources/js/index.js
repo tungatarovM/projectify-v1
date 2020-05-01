@@ -3,10 +3,11 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import {applyMiddleware, createStore, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import watcher from './store/saga';
 import state from './store/reducers';
-import('./bootstrap');
 import App from './App';
+require('./bootstrap');
 
 const saga = createSagaMiddleware();
 
@@ -22,12 +23,12 @@ const store = createStore(
 
 saga.run(watcher);
 
-const RootWrapper = (
+const Root = (
   <Provider store={store}>
     <App />
   </Provider>
 );
 
 if (document.getElementById('root')) {
-  render(RootWrapper, document.getElementById('root'));
+  render(Root, document.getElementById('root'));
 }
