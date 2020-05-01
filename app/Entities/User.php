@@ -2,6 +2,8 @@
 
 namespace App\Entities;
 
+use Carbon\Carbon;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
     private const DEFAULT_AVATAR = 'public/avatars/default.png';
 
     protected $fillable = [
-        'firstname', 'lastname', 'email', 'password', 'role', 'avatar',
+        'firstname', 'lastname', 'email', 'password', 'role', 'avatar', 'email_verified_at',
     ];
 
     protected $hidden = [
@@ -30,6 +32,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    protected $attributes = [
+        'avatar' => self::DEFAULT_AVATAR,
+    ];
+
     public static function register($firstname, $lastname, $email, $password): self
     {
         return self::create([
@@ -38,11 +44,10 @@ class User extends Authenticatable implements MustVerifyEmail
             'email' => $email,
             'password' => PasswordHash::make($password),
             'role' => self::ROLE_MANAGER,
-            'avatar' => self::DEFAULT_AVATAR,
         ]);
     }
 
-    public static function add($firstname, $lastname, $email, $password, $role): self
+    public static function add($firstname, $lastname, $email, $password, $role = 'developer'): self
     {
         return self::create([
             'firstname' => $firstname,
@@ -50,8 +55,34 @@ class User extends Authenticatable implements MustVerifyEmail
             'email' => $email,
             'password' => PasswordHash::make($password),
             'role' => $role,
-            'avatar' => self::DEFAULT_AVATAR,
+            'email_verified_at' => Carbon::now(),
         ]);
+    }
+
+    public function managingProjects()
+    {
+        if ($this->role !== self::ROLE_MANAGER) {
+            return null;
+        }
+        return $this->hasMany(Project::class, 'manager_id');
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'user_project');
+    }
+
+    public function createProject($name, $description)
+    {
+        return $this->managingProjects()->create([
+            'name' => $name,
+            'description' => $description,
+        ]);
+    }
+
+    public function getFullName(): string
+    {
+        return $this->lastname . ' ' . $this->firstname;
     }
 
     public function isAdmin(): bool
