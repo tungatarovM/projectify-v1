@@ -8,7 +8,7 @@ services:
         volumes:
           - ./:/var/www
         ports:
-            - "8088:80"
+            - "8000:80"
         depends_on:
           - php-fpm
     php-fpm:
@@ -50,6 +50,8 @@ services:
               POSTGRES_DB: ${DB_DATABASE}
           volumes:
             - projectify-postgres:/var/lib/postgresql/data/
+          ports:
+            - "54320:5432"
     redis:
           image: redis:5.0
           ports:
@@ -61,7 +63,8 @@ services:
           volumes:
               - ./:/var/www
           tty: true
-
+          ports:
+            - "8081:8080"
 volumes:
     projectify-postgres:
 
