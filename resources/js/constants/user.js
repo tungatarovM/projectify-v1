@@ -5,6 +5,6 @@ export const columns = [
   {
     title: 'Роль',
     field: 'role',
-    lookup: { developer: 'Разработчик', submitter: 'Тестировщик', manager: 'Менеджер' },
+    lookup: { developer: 'Разработчик', submitter: 'Тестировщик' },
   },
 ];
