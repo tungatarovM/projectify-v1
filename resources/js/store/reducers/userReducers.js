@@ -1,12 +1,7 @@
 import * as types from '../actions/types';
 
 const userState = {
-  data: [
-    { id: 1, firstname: 'Meirambek', lastname: 'Tungatarov', role: 'manager' },
-    { id: 7, firstname: 'Saginbek', lastname: 'Tungatarov', role: 'developer' },
-    { id:11, firstname: 'Gulzhanar', lastname: 'Tungatarova', role: 'submitter' },
-    { id: 12, firstname: 'Alesh', lastname: 'Koishibaev', role: 'developer' },
-  ],
+  data: [],
   currentUser: null,
   loading: true,
   error: null,
