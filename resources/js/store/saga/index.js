@@ -1,17 +1,17 @@
 import { takeEvery, takeLatest, put, call, all } from 'redux-saga/effects';
 import * as types from '../actions/types';
-import { fetchCurrentUser, deleteUser, fetchAllPersonnel, fetchUsers, addUser } from "../../services/api";
+import { fetchCurrentUser, deleteUser, fetchAllPersonnel, fetchUsers, addUser, fetchProjects } from "../../services/api";
 import { stopLoading } from '../actions';
 import {
-  fetchCurrentUserSuccess,
-  fetchCurrentUserFailure,
-  deleteUserSuccess,
-  deleteUserFailure,
-  addUserSuccess,
-  addUserFailure,
-  fetchUsersSuccess,
-  fetchUsersFailure, fetchAllPersonnelSuccess, fetchAllPersonnelFailure,
+  fetchCurrentUserSuccess, fetchCurrentUserFailure,
+  deleteUserSuccess, deleteUserFailure,
+  addUserSuccess, addUserFailure,
+  fetchUsersSuccess, fetchUsersFailure,
+  fetchAllPersonnelSuccess, fetchAllPersonnelFailure,
 } from '../actions/users';
+import {
+  fetchProjectsSuccess, fetchProjectsFailure,
+} from "../actions/projects";
 
 function* testHandler () {
   console.log('test_action is caught');
@@ -73,6 +73,15 @@ function* fetchUsersHandler () {
   }
 }
 
+function* fetchProjectsHandler () {
+  try {
+    const projects = yield(call(fetchProjects));
+    yield put(fetchProjectsSuccess(projects));
+  } catch (error) {
+    yield put(fetchProjectsFailure(error));
+  }
+}
+
 export default function* () {
   yield takeEvery(types.DELETE_USER, deleteUserHandler);
   yield takeEvery(types.ADD_USER, addUserHandler);
@@ -80,4 +89,5 @@ export default function* () {
   yield takeLatest(types.FETCH_CURRENT_USER, fetchCurrentUserHandler);
   yield takeLatest(types.FETCH_ALL_PERSONNEL, fetchAllPersonnelHandler);
   yield takeLatest(types.FETCH_USERS, fetchUsersHandler);
+  yield takeLatest(types.FETCH_PROJECTS, fetchProjectsHandler);
 }

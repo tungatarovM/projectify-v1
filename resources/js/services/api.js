@@ -13,6 +13,12 @@ export const fetchUsers = async () => {
   return await response.data;
 };
 
+export const fetchProjects = async () => {
+  const response = await axios.get('/projects');
+  console.log('response from fetchProjects', response);
+  return await response.data;
+}
+
 export const deleteUser = async (id) => {
   const response = await axios.delete(`/manager/delete/${id}`);
   return await response.data;
@@ -21,4 +27,17 @@ export const deleteUser = async (id) => {
 export const addUser = async (user) => {
   const response = await axios.post('/manager', user);
   return await response.data;
-}
+};
+
+export const changeRole = async (personnel, selectedRole) => {
+  const response = await axios.post('/manager/change', {
+    personnel, role: selectedRole,
+  });
+  console.log('response from changeRole', response);
+  return await response.data;
+};
+
+export const logout = async () => {
+  await axios.post('/logout');
+  return window.location.replace('/login');
+};

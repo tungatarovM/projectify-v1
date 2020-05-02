@@ -8,3 +8,8 @@ export const columns = [
     lookup: { developer: 'Разработчик', submitter: 'Тестировщик' },
   },
 ];
+
+export const roles = [
+  { name: 'developer', label: 'Разработчик', id: 1},
+  { name: 'submitter', label: 'Тестировщик', id: 2},
+];

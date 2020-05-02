@@ -1,7 +1,7 @@
 export const TEST_ACTION = 'TEST_ACTION';
 export const TEST_ACTION_HANDLED = 'TEST_ACTION_HANDLED';
 
-// Users
+// ---- Users ------
 export const FETCH_CURRENT_USER = 'FETCH_CURRENT_USER';
 export const FETCH_CURRENT_USER_SUCCESS = 'FETCH_CURRENT_USER_SUCCESS';
 export const FETCH_CURRENT_USER_FAILURE = 'FETCH_CURRENT_USER_FAILURE';
@@ -22,6 +22,12 @@ export const ADD_USER = 'ADD_USER';
 export const ADD_USER_SUCCESS = 'ADD_USER_SUCCESS';
 export const ADD_USER_FAILURE = 'ADD_USER_FAILURE';
 
-// Common
+//  ---- Projects -----
+export const FETCH_PROJECTS = 'FETCH_PROJECTS';
+export const FETCH_PROJECTS_SUCCESS = 'FETCH_PROJECTS_SUCCESS';
+export const FETCH_PROJECTS_FAILURE = 'FETCH_PROJECTS_FAILURE';
+
+
+//  ----- Common ------
 export const START_LOADING = 'START_LOADING';
 export const STOP_LOADING = 'STOP_LOADING';
