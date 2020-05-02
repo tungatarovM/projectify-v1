@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\User\DbRepository;
-use App\Services\User\UserService;
+use App\Services\User\Service;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     private $service;
 
-    public function __construct(UserService $service)
+    public function __construct(Service $service)
     {
         $this->middleware('auth');
         $this->service = $service;

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Entities\User;
 use App\Http\Resources\User as Resource;
-use App\Services\User\ManagerService;
+use App\Services\Project\Service as ProjectService;
+use App\Services\User\Service;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -12,11 +13,13 @@ use Illuminate\Validation\Rule;
 class ManagerController extends Controller
 {
     private $service;
+    private $projectService;
 
-    public function __construct(ManagerService $service)
+    public function __construct(Service $service, ProjectService $projectService)
     {
         $this->middleware(['auth', 'role.manager']);
         $this->service = $service;
+        $this->projectService = $projectService;
     }
 
     public function index(Request $request)
@@ -29,8 +32,17 @@ class ManagerController extends Controller
     public function store(Request $request)
     {
         $attributes = $this->validateData($request);
+        $projectId = $request['projectId'];
 
-        return $this->service->createUser($attributes);
+        $user = $this->service->createUser($attributes);
+        $this->projectService->assignUserTo($projectId, $user);
+
+        return (new Resource($user));
+    }
+
+    public function change(Request $request)
+    {
+        dd($request);
     }
 
     public function destroy(User $user)

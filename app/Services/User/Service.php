@@ -8,7 +8,7 @@ use App\Services\User\Repository\UserRepositoryInterface;
 use App\Helpers\User\Helper;
 use Illuminate\Contracts\Events\Dispatcher;
 
-class ManagerService
+class Service
 {
     private $users;
     private $dispatcher;
@@ -36,7 +36,7 @@ class ManagerService
         );
 
         $attributes['password'] = $password;
-        $this->dispatcher->dispatch(new NewMemberHasBeenCreated($attributes));
+//        $this->dispatcher->dispatch(new NewMemberHasBeenCreated($attributes));
 
         return $user;
     }
@@ -46,8 +46,23 @@ class ManagerService
         return $user->delete();
     }
 
+    /**
+     * Возвращает участников из всех проектов созданных менеджером
+     * @param $managerId
+     * @return mixed
+     */
     public function getAllPersonnel($managerId)
     {
         return $this->users->getAllPersonnel($managerId);
+    }
+
+    /**
+     * Возвращает коллег пользователя для роли Разработчик, Тестировщик
+     * @param $userId
+     * @return mixed
+     */
+    public function getColleagues($userId)
+    {
+        return $this->users->getColleagues($userId);
     }
 }

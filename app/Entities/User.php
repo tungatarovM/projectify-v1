@@ -9,6 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash as PasswordHash;
 
+/**
+ * Class User
+ * @package App\Entities
+ * @property $role
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
@@ -59,9 +64,17 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
     }
 
+    public function getMyProjects()
+    {
+        if (!$this->isManager()) {
+            return $this->projects()->get();
+        }
+        return $this->managingProjects()->get();
+    }
+
     public function managingProjects()
     {
-        if ($this->role !== self::ROLE_MANAGER) {
+        if (!$this->isManager()) {
             return null;
         }
         return $this->hasMany(Project::class, 'manager_id');
@@ -78,6 +91,12 @@ class User extends Authenticatable implements MustVerifyEmail
             'name' => $name,
             'description' => $description,
         ]);
+    }
+
+    public function changeRole($role)
+    {
+        $this->role = $role;
+        $this->save();
     }
 
     public function getFullName(): string
