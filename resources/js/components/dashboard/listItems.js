@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { People, WorkOutline, AccountBox, PlaylistAddCheck } from '@material-ui/icons';
+import { People, WorkOutline, AccountBox, PlaylistAddCheck, ExitToApp } from '@material-ui/icons';
+import { logout } from '../../services/api';
+
 
 export const managerListItems = (
   <div>
@@ -14,7 +16,7 @@ export const managerListItems = (
       </ListItem>
     </Link>
 
-    <Link to='/manager/projects' className='link'>
+    <Link to='/' className='link'>
       <ListItem button>
         <ListItemIcon>
           <WorkOutline />
@@ -74,6 +76,12 @@ export const secondaryListItems = (
         </ListItemIcon>
         <ListItemText secondary="Профиль" />
       </Link>
+    </ListItem>
+    <ListItem button onClick={() => logout()}>
+        <ListItemIcon>
+          <ExitToApp/>
+        </ListItemIcon>
+        <ListItemText secondary="Выйти" />
     </ListItem>
   </div>
 );
