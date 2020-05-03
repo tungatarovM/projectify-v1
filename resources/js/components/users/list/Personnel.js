@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MaterialTable from 'material-table';
-import { columns } from '../../constants/user';
-import { deleteUser, addUser } from '../../store/actions/users';
+import { columns } from '../../../constants/user';
+import { deleteUser, addUser } from '../../../store/actions/users';
 
-const Personnel = ({ users, deleteUser, addUser }) => {
+const Personnel = ({ users, projects, deleteUser, addUser }) => {
   console.log('users from Personnel', users);
   const handleAddUser = (newUser) => {
     console.log('new user', newUser);
@@ -20,14 +20,15 @@ const Personnel = ({ users, deleteUser, addUser }) => {
       title="Персонал"
       columns={columns}
       data={users}
+      actions={[
+        {
+          icon: 'add',
+          tooltip: 'Add User',
+          isFreeAction: true,
+          onClick: (event, newUser) => alert('Click'),
+        },
+      ]}
       editable={{
-        onRowAdd: (newData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              handleAddUser(newData);
-            }, 600);
-          }),
         onRowDelete: (user) =>
           new Promise((resolve) => {
             setTimeout(() => {
