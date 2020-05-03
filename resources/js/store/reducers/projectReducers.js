@@ -5,8 +5,8 @@ const projectState = {
   currentProject: null
 };
 
-export default (state = projectState, { payload }) => {
-  switch (action.type) {
+export default (state = projectState, { type, payload }) => {
+  switch (type) {
     case types.FETCH_PROJECTS_SUCCESS:
       return {
         ...state,
