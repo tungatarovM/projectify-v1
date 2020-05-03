@@ -16,10 +16,15 @@ Route::group(
     function () {
         Route::get('/', 'ManagerController@index')->name('home');
         Route::post('/', 'ManagerController@store');
+        Route::post('/change', 'ManagerController@change');
         Route::delete('/delete/{user}', 'ManagerController@destroy');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
    Route::get('/users/current', function (Request $request) { return $request->user()   ; });
    Route::get('/users', 'UserController@index');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+   Route::get('/projects', 'ProjectController@index');
 });
