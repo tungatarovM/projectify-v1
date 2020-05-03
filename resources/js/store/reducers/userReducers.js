@@ -10,7 +10,6 @@ const userState = {
 export default (state = userState, { type, payload }) => {
   switch (type) {
     case types.FETCH_CURRENT_USER_SUCCESS:
-      console.log('fetch current user success', payload.user);
       return {
         ...state,
         currentUser: payload.user,
@@ -21,7 +20,6 @@ export default (state = userState, { type, payload }) => {
         error: payload.error,
       };
     case types.FETCH_ALL_PERSONNEL_SUCCESS:
-      console.log('all personnel success', payload);
       return {
         ...state,
         data: payload.users,
@@ -42,7 +40,6 @@ export default (state = userState, { type, payload }) => {
         error: payload.error,
       };
     case types.DELETE_USER_SUCCESS:
-      console.log('payload from delete user success', payload);
       return {
         ...state,
         data: state.data.filter((user) => user.id !== payload.id),
