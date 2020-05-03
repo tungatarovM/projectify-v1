@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { isNull } from 'lodash/lang';
 import { fetchCurrentUser } from './store/actions/users';
 import Dashboard from "./components/dashboard/Dashboard";
 
@@ -24,7 +25,7 @@ const mapStateToProps = ({ users }) => {
   console.log('users state', users);
   return {
     user: users.currentUser,
-    isLoading: users.loading,
+    isLoading: users.loading && isNull(users.currentUser),
     error: users.error,
   };
 };
