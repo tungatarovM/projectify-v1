@@ -3,7 +3,6 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import {applyMiddleware, createStore, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import watcher from './store/saga';
 import state from './store/reducers';
 import App from './App';
