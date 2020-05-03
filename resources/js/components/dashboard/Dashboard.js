@@ -7,8 +7,9 @@ import Content from './Content';
 import useStyles from './styles';
 import { fetchAllPersonnel, fetchUsers } from "../../store/actions/users";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { fetchProjects } from '../../store/actions/projects';
 
-function Dashboard ({ user, fetchAllPersonnel, fetchUsers }) {
+function Dashboard ({ user, fetchAllPersonnel, fetchUsers, fetchProjects }) {
   console.log('dashboard render');
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -27,6 +28,7 @@ function Dashboard ({ user, fetchAllPersonnel, fetchUsers }) {
     } else {
       fetchUsers();
     }
+    fetchProjects();
   }, []);
 
   const handleDrawerOpen = () => {
@@ -63,9 +65,14 @@ function Dashboard ({ user, fetchAllPersonnel, fetchUsers }) {
   );
 }
 
+const mapStateToProps = () => {
+  return {};
+};
+
 const mapDispatchToActions = {
   fetchAllPersonnel,
   fetchUsers,
+  fetchProjects,
 };
 
-export default connect(null, mapDispatchToActions)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToActions)(Dashboard);
