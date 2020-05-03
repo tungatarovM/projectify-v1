@@ -16,7 +16,7 @@ export const fetchUsers = async () => {
 export const fetchProjects = async () => {
   const response = await axios.get('/projects');
   console.log('response from fetchProjects', response);
-  return await response.data;
+  return await response.data.data;
 }
 
 export const deleteUser = async (id) => {
@@ -26,7 +26,7 @@ export const deleteUser = async (id) => {
 
 export const addUser = async (user) => {
   const response = await axios.post('/manager', user);
-  return await response.data;
+  return await response.data.data;
 };
 
 export const changeRole = async (personnel, selectedRole) => {
