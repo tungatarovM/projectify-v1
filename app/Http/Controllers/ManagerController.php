@@ -7,6 +7,7 @@ use App\Http\Resources\User as Resource;
 use App\Services\Project\Service as ProjectService;
 use App\Services\User\Service;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Validation\Rule;
 
 
@@ -29,10 +30,17 @@ class ManagerController extends Controller
         );
     }
 
+
+    public function view(Request $request)
+    {
+        return (new Resource($request->user()))
+            ->response();
+    }
+
     public function store(Request $request)
     {
         $attributes = $this->validateData($request);
-        $projectId = $request['projectId'];
+        $projectId = $request['project'];
 
         $user = $this->service->createUser($attributes);
         $this->projectService->assignUserTo($projectId, $user);
