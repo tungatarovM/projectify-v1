@@ -29,7 +29,7 @@ export default ({ personnel, selectedPersonnel, selectPersonnel, classes }) => {
         }}
       >
         {personnel.map(({ id, fullName }) => (
-          <option key={id} value={id}>
+          <option key={id} value={id} className='pt-2 pb-2'>
             {fullName}
           </option>
         ))}

@@ -7,7 +7,7 @@ export default makeStyles((theme) => ({
     width: '100%',
   },
   multiSelect: {
-    height: '7rem !important',
+    height: '8.5rem !important',
   },
   formControl: {
     marginBottom: '2rem',

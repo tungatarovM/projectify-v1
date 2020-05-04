@@ -26,7 +26,7 @@ export default function RoleManager({ personnel, changeRole }) {
   return (
     <div>
       <React.Fragment>
-        <h2 className='mb-4'>Управление ролями пользователей</h2>
+        <h2 className='mb-4'>Управление ролью пользователя</h2>
         <PersonnelSelector selectPersonnel={selectPersonnel} personnel={personnel} classes={classes}/>
         <Divider light className='mb-4 mt-4' />
         <RoleSelector setRole={setRole} selectedRole={selectedRole} roles={roles} classes={classes} />
