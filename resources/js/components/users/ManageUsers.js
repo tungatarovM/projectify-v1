@@ -14,11 +14,11 @@ class ManageUsers extends Component {
     const { personnel, projects, changeRole } = this.props;
     return (
       <Grid container spacing={4} justify='space-between'>
-        <Grid item sm={12} lg={8}>
-          <Personnel personnel={personnel} projects={projects}/>
-        </Grid>
         <Grid item sm={12} lg={4}>
           <RoleManager personnel={personnel} changeRole={changeRole}/>
+        </Grid>
+        <Grid item sm={12} lg={8}>
+          <Personnel personnel={personnel} projects={projects}/>
         </Grid>
       </Grid>
     )
