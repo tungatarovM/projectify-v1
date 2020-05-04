@@ -20,7 +20,7 @@ export const fetchProjectsFailure = error => ({
 
 
 export const addProject = (project) => {
-  console.log('add project action');
+  console.log('add project action call');
   return {
     type: types.ADD_PROJECT,
     payload: {
@@ -47,21 +47,21 @@ export const addProjectFailure = (error) => {
   };
 };
 
-export const deleteProject = (project) => {
+export const deleteProject = (id) => {
   console.log('add project action');
   return {
     type: types.DELETE_PROJECT,
     payload: {
-      project,
+      id,
     },
   };
 };
 
-export const deleteProjectSuccess = (project) => {
+export const deleteProjectSuccess = (id) => {
   return {
     type: types.DELETE_PROJECT_SUCCESS,
     payload: {
-      project,
+      id,
     }
   };
 };

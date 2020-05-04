@@ -16,7 +16,7 @@ export const managerListItems = (
       </ListItem>
     </Link>
 
-    <Link to='/projects' className='link'>
+    <Link to='/manager/projects' className='link'>
       <ListItem button>
         <ListItemIcon>
           <WorkOutline />

@@ -10,11 +10,11 @@ class ProjectManager extends Component {
   };
 
   render() {
-    const { projects } = this.props;
+    const { projects, addProject, deleteProject } = this.props;
     return (
       <Grid container spacing={4} justify='space-between'>
         <Grid item sm={12} lg={8}>
-          <Projects projects={projects} addProject={addProject}/>
+          <Projects projects={projects} addProject={addProject} deleteProject={deleteProject}/>
         </Grid>
       </Grid>
     )

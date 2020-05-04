@@ -1,6 +1,6 @@
 export const fetchCurrentUser = async () => {
   const response = await axios.get('/users/current');
-  return await response.data;
+  return await response.data.data;
 };
 
 export const fetchAllPersonnel = async () => {
@@ -41,3 +41,14 @@ export const logout = async () => {
   await axios.post('/logout');
   return window.location.replace('/login');
 };
+
+export const addProject = async (data) => {
+  const response = await axios.post('/projects', data);
+  console.log('response from addProject', response);
+  return response.data.data;
+};
+
+export const deleteProject = async (id) => {
+  const response = await axios.delete(`/projects/${id}`);
+  return response.data;
+}

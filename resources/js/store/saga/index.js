@@ -4,7 +4,7 @@ import {
   fetchCurrentUser, deleteUser,
   fetchAllPersonnel, fetchUsers,
   addUser, fetchProjects,
-  changeRole,
+  changeRole, addProject, deleteProject,
 } from "../../services/api";
 import { stopLoading } from '../actions';
 import {
@@ -17,12 +17,9 @@ import {
 } from '../actions/users';
 import {
   fetchProjectsSuccess, fetchProjectsFailure,
+  addProjectSuccess, addProjectFailure,
+  deleteProjectSuccess, deleteProjectFailure,
 } from "../actions/projects";
-
-function* testHandler () {
-  console.log('test_action is caught');
-  yield put({ type: types.TEST_ACTION_HANDLED, payload: []});
-}
 
 function* fetchCurrentUserHandler () {
   try {
@@ -98,10 +95,35 @@ function* changeUsersRoleHandler ({ payload }) {
   }
 }
 
+function* addProjectHandler ({ payload }) {
+  console.log('add project handler before payload');
+  const { project } = payload;
+  console.log('add project handler');
+  try {
+    const newProject = yield(call(addProject, project));
+    yield put(addProjectSuccess(newProject));
+  } catch (error) {
+    yield put(addProjectFailure(error));
+  }
+}
+
+
+function* deleteProjectHandler ({ payload }) {
+  const { id } = payload;
+  try {
+    const response = yield(call(deleteProject, id));
+    console.log('response from delete project handler', response);
+    yield put(deleteProjectSuccess(id));
+  } catch (error) {
+    yield put(deleteProjectFailure(error));
+  }
+}
+
 export default function* () {
   yield takeEvery(types.DELETE_USER, deleteUserHandler);
   yield takeEvery(types.ADD_USER, addUserHandler);
-  yield takeEvery(types.TEST_ACTION, testHandler);
+  yield takeEvery(types.ADD_PROJECT, addProjectHandler);
+  yield takeEvery(types.DELETE_PROJECT, deleteProjectHandler);
   yield takeEvery(types.CHANGE_ROLE, changeUsersRoleHandler);
   yield takeLatest(types.FETCH_CURRENT_USER, fetchCurrentUserHandler);
   yield takeLatest(types.FETCH_ALL_PERSONNEL, fetchAllPersonnelHandler);

@@ -38,14 +38,16 @@ export default (props) => {
       name, description,
     };
 
-    addProject(newProject)
-    return handleClose();
+    addProject(newProject);
+
+    handleClose();
+    return setState((prevState) => ({ ...prevState, name: '', description: '', }));
   };
 
   return (
     <Dialog open={modal} onClose={handleClose} aria-labelledby="add-user-modal-title">
       { !isEmpty(message) && <Alert severity='error'>{message}</Alert>}
-      <DialogTitle id="form-dialog-title">Создать новый проект</DialogTitle>
+      <DialogTitle id="name">Создать новый проект</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -71,10 +73,10 @@ export default (props) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleClose} color="secondary">
           Закрыть
         </Button>
-        <Button onClick={handleSubmit} color="primary">
+        <Button onClick={() => handleSubmit()} color="primary">
           Создать
         </Button>
       </DialogActions>

@@ -1,6 +1,4 @@
 <?php
-
-use App\Entities\User;
 use Illuminate\Http\Request;
 
 Auth::routes(['verify' => true]);
@@ -21,10 +19,12 @@ Route::group(
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-   Route::get('/users/current', function (Request $request) { return $request->user()   ; });
    Route::get('/users', 'UserController@index');
+   Route::get('/users/current', 'UserController@current');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
    Route::get('/projects', 'ProjectController@index');
+   Route::post('/projects', 'ProjectController@store')->middleware(['role.manager']);
+   Route::delete('/projects/{project}', 'ProjectController@destroy')->middleware(['role.manager']);
 });
