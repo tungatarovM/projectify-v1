@@ -1,4 +1,5 @@
 import * as types from './types';
+import {CHANGE_USERS_ROLE_SUCCESS} from "./types";
 
 export const fetchCurrentUser = () => {
   console.log('action fetch Current user');
@@ -44,6 +45,7 @@ export const fetchAllPersonnelFailure = (error) => {
 };
 
 export const fetchUsers = () => ({ type: types.FETCH_USERS });
+
 export const fetchUsersSuccess = users => ({
   type: types.FETCH_USERS_SUCCESS,
   payload: {
@@ -106,3 +108,32 @@ export const addUserFailure = (error) => {
     },
   };
 };
+
+export const changeRole = (personnel, role) => {
+  return {
+    type: types.CHANGE_ROLE,
+    payload: {
+      personnel,
+      role,
+    },
+  };
+};
+
+export const changeRoleSuccess = (personnel) => {
+  return {
+    type: types.CHANGE_ROLE_SUCCESS,
+    payload: {
+      personnel,
+    },
+  };
+};
+
+export const changeRoleFailure = (error) => {
+  return {
+    type: types.CHANGE_ROLE_FAILURE,
+    payload: {
+      error,
+    },
+  };
+};
+

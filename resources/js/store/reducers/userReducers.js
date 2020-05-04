@@ -1,3 +1,4 @@
+import { filter, reduce } from 'lodash/collection';
 import * as types from '../actions/types';
 
 const userState = {
@@ -60,6 +61,18 @@ export default (state = userState, { type, payload }) => {
         ...state,
         error: payload.error
       };
+    case types.CHANGE_ROLE_SUCCESS:
+      const ids = reduce(payload.personnel, (acc, user) => [ ...acc, user.id ], []);
+      console.log('ids', ids);
+      const filtered = filter(state.data, user => !ids.includes(user.id));
+      console.log('filtered', filtered);
+      return {
+        ...state,
+        data: [ ...filtered, ...payload.personnel ],
+      };
+    case types.CHANGE_ROLE_FAILURE:
+      console.log('change role failure reducer', payload.error);
+      return state;
     case types.STOP_LOADING:
       return {
         ...state,

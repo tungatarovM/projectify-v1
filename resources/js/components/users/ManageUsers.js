@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Personnel from "./list/Personnel";
 import RoleManager from "./role/RoleManager";
 import {Grid} from "@material-ui/core";
+import { changeRole } from '../../store/actions/users';
 
 class ManageUsers extends Component {
   state = {
@@ -10,14 +11,14 @@ class ManageUsers extends Component {
   };
 
   render() {
-    const { personnel, projects } = this.props;
+    const { personnel, projects, changeRole } = this.props;
     return (
       <Grid container spacing={4} justify='space-between'>
         <Grid item sm={12} lg={6}>
           <Personnel personnel={personnel} projects={projects}/>
         </Grid>
         <Grid item sm={6} lg={6}>
-          <RoleManager personnel={personnel} />
+          <RoleManager personnel={personnel} changeRole={changeRole}/>
         </Grid>
       </Grid>
     )
@@ -30,7 +31,7 @@ const mapStateToProps = ({ users, projects }) => ({
 });
 
 const mapActionsToDispatch = {
-
+  changeRole,
 };
 
 export default connect(mapStateToProps, mapActionsToDispatch)(ManageUsers);

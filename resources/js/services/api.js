@@ -29,12 +29,12 @@ export const addUser = async (user) => {
   return await response.data.data;
 };
 
-export const changeRole = async (personnel, selectedRole) => {
+export const changeRole = async (personnel, role) => {
   const response = await axios.post('/manager/change', {
-    personnel, role: selectedRole,
+    personnel, role,
   });
   console.log('response from changeRole', response);
-  return await response.data;
+  return await response.data.data;
 };
 
 export const logout = async () => {

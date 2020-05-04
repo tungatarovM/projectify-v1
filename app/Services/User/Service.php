@@ -41,6 +41,15 @@ class Service
         return $user;
     }
 
+    public function changeRoleOf($personnel, $role)
+    {
+        return collect($personnel)->map(function ($id) use ($role) {
+            $member = User::findOrFail($id);
+            $member->changeRole($role);
+            return $member;
+        });
+    }
+
     public function delete(User $user)
     {
         return $user->delete();

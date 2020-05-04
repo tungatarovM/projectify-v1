@@ -7,7 +7,6 @@ use App\Http\Resources\User as Resource;
 use App\Services\Project\Service as ProjectService;
 use App\Services\User\Service;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Validation\Rule;
 
 
@@ -50,7 +49,16 @@ class ManagerController extends Controller
 
     public function change(Request $request)
     {
-        dd($request);
+        $data = $request->validate([
+            'role' => ['required', Rule::in([User::ROLE_DEVELOPER, User::ROLE_SUBMITTER])],
+        ]);
+
+        $personnel = $request['personnel'];
+        $role = $data['role'];
+
+        $updatedPersonnel = $this->service->changeRoleOf($personnel, $role);
+
+        return Resource::collection($updatedPersonnel);
     }
 
     public function destroy(User $user)

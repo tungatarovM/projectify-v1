@@ -16,27 +16,24 @@ export default ({ personnel, selectedPersonnel, selectPersonnel, classes }) => {
   };
 
   return (
-    <Fragment>
-      <h2 className='mb-4'>Управление ролями пользователей</h2>
-      <FormControl className={classes.multiSelectFormControl}>
-        <h5>Выберите 1 или несколько пользователей</h5>
-        <Select
-          multiple
-          native
-          value={selectedPersonnel}
-          onChange={handleChange}
-          inputProps={{
-            id: 'personnel',
-            className: classes.multiSelect,
-          }}
-        >
-          {personnel.map(({ id, fullName }) => (
-            <option key={id} value={id}>
-              {fullName}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-    </Fragment>
+    <FormControl className={classes.multiSelectFormControl}>
+      <h5 className='mb-3'>Выберите 1 или несколько пользователей</h5>
+      <Select
+        multiple
+        native
+        value={selectedPersonnel}
+        onChange={handleChange}
+        inputProps={{
+          id: 'personnel',
+          className: classes.multiSelect,
+        }}
+      >
+        {personnel.map(({ id, fullName }) => (
+          <option key={id} value={id}>
+            {fullName}
+          </option>
+        ))}
+      </Select>
+    </FormControl>
   );
 }
