@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\User\DbRepository;
 use App\Services\User\Service;
+use App\Http\Resources\User as Resource;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -20,5 +20,10 @@ class UserController extends Controller
     {
         $user = $request->user();
         return $this->service->getColleagues($user->id);
+    }
+
+    public function current(Request $request)
+    {
+        return (new Resource($request->user()))->response();
     }
 }
