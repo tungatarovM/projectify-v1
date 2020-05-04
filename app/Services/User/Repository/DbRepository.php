@@ -11,7 +11,8 @@ class DbRepository implements UserRepositoryInterface
         $colleagues = collect([]);
 
         $user = User::findOrFail($userId);
-        $projects = $user->project;
+        $projects = $user->projects;
+
         foreach ($projects as $project) {
             $colleagues = $colleagues->merge($project->team);
         }
