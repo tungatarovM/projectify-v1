@@ -16,7 +16,7 @@ export const managerListItems = (
       </ListItem>
     </Link>
 
-    <Link to='/' className='link'>
+    <Link to='/projects' className='link'>
       <ListItem button>
         <ListItemIcon>
           <WorkOutline />
@@ -25,7 +25,7 @@ export const managerListItems = (
       </ListItem>
     </Link>
 
-    <Link to='/manager/tickets' className='link'>
+    <Link to='/' className='link'>
       <ListItem button>
         <ListItemIcon>
           <PlaylistAddCheck />
