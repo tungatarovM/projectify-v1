@@ -26,6 +26,7 @@ const Personnel = ({ users, projects, deleteUser, addUser }) => {
         roles={roles}
         projects={projects}
       />
+      <h2 className='mb-4'>Управление пользователями</h2>
       <MaterialTable
         title="Персонал"
         columns={columns}
