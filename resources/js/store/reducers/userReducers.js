@@ -1,4 +1,4 @@
-import { filter, reduce } from 'lodash/collection';
+import { filter, map } from 'lodash/collection';
 import * as types from '../actions/types';
 
 const userState = {
@@ -13,7 +13,7 @@ export default (state = userState, { type, payload }) => {
     case types.FETCH_CURRENT_USER_SUCCESS:
       return {
         ...state,
-        currentUser: payload.user,
+        currentUser: payload.data,
       };
     case types.FETCH_CURRENT_USER_FAILURE:
       return {
@@ -23,7 +23,7 @@ export default (state = userState, { type, payload }) => {
     case types.FETCH_ALL_PERSONNEL_SUCCESS:
       return {
         ...state,
-        data: payload.users,
+        data: payload.data,
       };
     case types.FETCH_ALL_PERSONNEL_FAILURE:
       return {
@@ -54,7 +54,7 @@ export default (state = userState, { type, payload }) => {
       console.log('payload from add user success', payload);
       return {
         ...state,
-        data: state.data.concat(payload.user),
+        data: state.data.concat(payload.entity),
       };
     case types.ADD_USER_FAILURE:
       return {
@@ -62,17 +62,17 @@ export default (state = userState, { type, payload }) => {
         error: payload.error
       };
     case types.CHANGE_ROLE_SUCCESS:
-      const ids = reduce(payload.personnel, (acc, user) => [ ...acc, user.id ], []);
-      console.log('ids', ids);
-      const filtered = filter(state.data, user => !ids.includes(user.id));
-      console.log('filtered', filtered);
+      const updatedUsersId = map(payload.data, ({ id }) => id);
+      const filtered = filter(state.data, user => !updatedUsersId.includes(user.id));
       return {
         ...state,
-        data: [ ...filtered, ...payload.personnel ],
+        data: [ ...payload.data, ...filtered ],
       };
     case types.CHANGE_ROLE_FAILURE:
-      console.log('change role failure reducer', payload.error);
-      return state;
+      return {
+        ...state,
+        error: payload.error,
+      };
     case types.STOP_LOADING:
       return {
         ...state,

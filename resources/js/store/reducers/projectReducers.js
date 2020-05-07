@@ -13,7 +13,7 @@ export default (state = projectState, { type, payload }) => {
     case types.FETCH_PROJECTS_SUCCESS:
       return {
         ...state,
-        data: payload.projects,
+        data: payload.data,
         loading: false,
       };
     case types.FETCH_PROJECTS_FAILURE:
@@ -26,7 +26,7 @@ export default (state = projectState, { type, payload }) => {
     case types.ADD_PROJECT_SUCCESS:
       return {
         ...state,
-        data: [ ...state.data, payload.project ],
+        data: [ ...state.data, payload.entity ],
       };
     case types.ADD_PROJECT_FAILURE:
       return {
@@ -35,7 +35,7 @@ export default (state = projectState, { type, payload }) => {
       };
     case types.DELETE_PROJECT_SUCCESS:
       console.log('payload', payload);
-      const { id:deletedProjectId } = payload;
+      const { id: deletedProjectId } = payload;
       console.log('deleted project id ', deletedProjectId);
       const filtered = filter(state.data, ({ id }) => id !== deletedProjectId);
       console.log('projects', state.data);

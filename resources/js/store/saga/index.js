@@ -1,123 +1,68 @@
 import { takeEvery, takeLatest, put, call, all } from 'redux-saga/effects';
+import * as api from '../../services/api';
 import * as types from '../actions/types';
-import {
-  fetchCurrentUser, deleteUser,
-  fetchAllPersonnel, fetchUsers,
-  addUser, fetchProjects,
-  changeRole, addProject, deleteProject,
-} from "../../services/api";
 import { stopLoading } from '../actions';
-import {
-  fetchCurrentUserSuccess, fetchCurrentUserFailure,
-  deleteUserSuccess, deleteUserFailure,
-  addUserSuccess, addUserFailure,
-  fetchUsersSuccess, fetchUsersFailure,
-  fetchAllPersonnelSuccess, fetchAllPersonnelFailure,
-  changeRoleSuccess, changeRoleFailure
-} from '../actions/users';
-import {
-  fetchProjectsSuccess, fetchProjectsFailure,
-  addProjectSuccess, addProjectFailure,
-  deleteProjectSuccess, deleteProjectFailure,
-} from "../actions/projects";
 
-function* fetchCurrentUserHandler () {
+function* fetchHandler (...args) {
+  const [callback, action] = args;
+  const { type } = action;
+  console.log('callback', callback);
+  console.log('action', action);
   try {
-    const user = yield call(fetchCurrentUser);
-    console.log('fetched user', user);
-    yield all([
-      put(fetchCurrentUserSuccess(user)),
-      put(stopLoading()),
-    ]);
-  } catch (err) {
-    yield all([
-      put(fetchCurrentUserFailure(err)),
-      put(stopLoading()),
-    ]);
-    console.log('fetched error', err);
-  }
-}
-
-function* deleteUserHandler ({ id }) {
-  try {
-    console.log('delete user id ', id);
-    const response = yield(call(deleteUser, id));
-    console.log('delete user success', response);
-    yield put(deleteUserSuccess(id));
-  } catch (err) {
-    yield put(deleteUserFailure(err));
-  }
-}
-
-function* addUserHandler ({ payload }) {
-  try {
-    const newUser = yield(call(addUser, payload.user));
-    yield put(addUserSuccess(newUser));
+    const data = yield call(callback);
+    yield put({ type: type + '_SUCCESS', payload: { data } });
   } catch (error) {
-    yield put(addUserFailure(error));
+    yield put({ type: type + '_FAILURE', payload: { error } });
   }
 }
 
-function* fetchAllPersonnelHandler () {
+function* addHandler (...args) {
+  const [callback, action] = args;
+  const { type, payload: { entity } } = action;
+  console.log('action', action);
   try {
-    const users = yield(call(fetchAllPersonnel));
-    yield put(fetchAllPersonnelSuccess(users));
+    const newEntity = yield call(callback, entity);
+    yield put({ type: type + '_SUCCESS', payload: { entity: newEntity }});
   } catch (error) {
-    yield put(fetchAllPersonnelFailure(error));
+    yield put({ type: type + '_ERROR', payload: { error } });
   }
 }
 
-function* fetchUsersHandler () {
+function* deleteHandler (...args) {
+  const [callback, action] = args;
+  const { type, payload } = action;
+  const { id } = payload;
+  console.log('action', action);
   try {
-    const users = yield(call(fetchUsers));
-    yield put(fetchUsersSuccess(users));
+    const response = yield call(callback, id);
+    yield put({ type: type + '_SUCCESS', payload: { id }});
   } catch (error) {
-    yield put(fetchUsersFailure(error));
+    yield put({ type: type + '_FAILURE', payload: { error }});
   }
 }
 
-function* fetchProjectsHandler () {
-  try {
-    const projects = yield(call(fetchProjects));
-    yield put(fetchProjectsSuccess(projects));
-  } catch (error) {
-    yield put(fetchProjectsFailure(error));
-  }
-}
+const fetchCurrentUserHandler = fetchHandler.bind(null, api.fetchCurrentUser);
+const fetchPersonnelHandler = fetchHandler.bind(null, api.fetchAllPersonnel);
+const fetchUsersHandler = fetchHandler.bind(null, api.fetchUsers);
+const fetchProjectsHandler = fetchHandler.bind(null, api.fetchProjects);
 
-function* changeUsersRoleHandler ({ payload }) {
+const addUserHandler = addHandler.bind(null, api.addUser);
+const addProjectHandler = addHandler.bind(null, api.addProject);
+
+const deleteProjectHandler = deleteHandler.bind(null, api.deleteProject);
+const deleteUserHandler = deleteHandler.bind(null, api.deleteUser);
+
+
+function* changeUsersRoleHandler ({ type, payload }) {
   const { personnel, role } = payload;
   try {
-    const updatedPersonnel = yield(call(changeRole, personnel, role));
-    yield put(changeRoleSuccess(updatedPersonnel));
+    const data = yield(call(api.changeRole, personnel, role));
+    yield put({ type: type + '_SUCCESS', payload: { data }});
   } catch (error) {
-    yield put(changeRoleFailure(error));
+    yield put({ type: type + '_FAILURE', payload: { error }});
   }
 }
 
-function* addProjectHandler ({ payload }) {
-  console.log('add project handler before payload');
-  const { project } = payload;
-  console.log('add project handler');
-  try {
-    const newProject = yield(call(addProject, project));
-    yield put(addProjectSuccess(newProject));
-  } catch (error) {
-    yield put(addProjectFailure(error));
-  }
-}
-
-
-function* deleteProjectHandler ({ payload }) {
-  const { id } = payload;
-  try {
-    const response = yield(call(deleteProject, id));
-    console.log('response from delete project handler', response);
-    yield put(deleteProjectSuccess(id));
-  } catch (error) {
-    yield put(deleteProjectFailure(error));
-  }
-}
 
 export default function* () {
   yield takeEvery(types.DELETE_USER, deleteUserHandler);
@@ -126,7 +71,7 @@ export default function* () {
   yield takeEvery(types.DELETE_PROJECT, deleteProjectHandler);
   yield takeEvery(types.CHANGE_ROLE, changeUsersRoleHandler);
   yield takeLatest(types.FETCH_CURRENT_USER, fetchCurrentUserHandler);
-  yield takeLatest(types.FETCH_ALL_PERSONNEL, fetchAllPersonnelHandler);
+  yield takeLatest(types.FETCH_ALL_PERSONNEL, fetchPersonnelHandler);
   yield takeLatest(types.FETCH_USERS, fetchUsersHandler);
   yield takeLatest(types.FETCH_PROJECTS, fetchProjectsHandler);
 }
