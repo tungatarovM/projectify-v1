@@ -1,0 +1,8 @@
+.link {
+    display: flex;
+
+    &,
+    &:hover {
+        text-decoration: none;
+    }
+}
